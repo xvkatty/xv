@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XV Años de Kati</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Great+Vibes&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --lila-oscuro: #4a3e7d;
+            --lila-principal: #7c6ca7;
+            --lavanda: #b3a5d1;
+            --gris-texto: #555566;
+            
+            --glass-bg: rgba(255, 255, 255, 0.85);
+            --glass-border: rgba(255, 255, 255, 0.9);
+            --glass-shadow: 0 20px 40px rgba(74, 62, 125, 0.1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--gris-texto);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px 20px 100px 20px;
+            overflow-x: hidden;
+            background-color: #1a1a24;
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            transition: background-image 0.8s ease-in-out;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 0, 0, 0.15);
+            z-index: -1;
+        }
+
+        #youtube-player-container {
+            display: none;
+        }
+
+        .invitacion-card {
+            background: var(--glass-bg);
+            max-width: 480px;
+            width: 100%;
+            border-radius: 30px;
+            padding: 50px 35px 40px 35px;
+            text-align: center;
+            box-shadow: var(--glass-shadow);
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            position: relative;
+            animation: emersiónCard 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        @keyframes emersiónCard {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .tab-content {
+            display: none;
+            opacity: 0;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: deslizarContenido 0.4s ease-out forwards;
+        }
+
+        @keyframes deslizarContenido {
+            from { 
+                opacity: 0; 
+                transform: translateY(12px); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0); 
+            }
+        }
+
+        .decoracion-linea {
+            width: 60px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--lavanda), transparent);
+            margin: 20px auto;
+        }
+
+        .intro-text {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            color: #9a9ab0;
+            font-weight: 500;
+        }
+
+        .titulo-kati {
+            font-family: 'Great Vibes', cursive;
+            font-size: 5.5rem;
+            font-weight: 400;
+            color: var(--lila-oscuro);
+            line-height: 0.8;
+            margin-bottom: 10px;
+            margin-top: 5px;
+        }
+
+        .nombre-quinceanera {
+            font-family: 'Cinzel', serif;
+            font-size: 3.6rem;
+            font-weight: 500;
+            color: var(--lila-oscuro);
+            line-height: 1.1;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+        }
+
+        .evento-tag {
+            font-family: 'Cinzel', serif;
+            font-size: 1.1rem;
+            letter-spacing: 6px;
+            color: var(--lila-principal);
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        .fecha-bloque {
+            margin: 30px 0;
+            padding: 15px 0;
+            border-top: 1px solid rgba(124, 108, 167, 0.15);
+            border-bottom: 1px solid rgba(124, 108, 167, 0.15);
+        }
+
+        .fecha-texto {
+            font-family: 'Cinzel', serif;
+            font-size: 1.25rem;
+            color: var(--lila-oscuro);
+            letter-spacing: 3px;
+            font-weight: 600;
+        }
+
+        .contador-seccion {
+            margin: 30px 0 10px 0;
+        }
+
+        .contador-label {
+            font-size: 0.7rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: #9a9ab0;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .contador-grid {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .caja-tiempo {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.6);
+            padding: 15px 5px;
+            border-radius: 15px;
+            border: 1px solid rgba(124, 108, 167, 0.08);
+        }
+
+        .numero-tiempo {
+            display: block;
+            font-size: 1.6rem;
+            font-weight: 400;
+            color: var(--lila-oscuro);
+            font-family: 'Cinzel', serif;
+        }
+
+        .tag-tiempo {
+            font-size: 0.6rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #a0a0b5;
+            font-weight: 600;
+            margin-top: 4px;
+        }
+
+        .frase-invitacion {
+            font-size: 0.95rem;
+            line-height: 1.8;
+            color: var(--gris-texto);
+            font-weight: 400;
+            margin: 25px 0;
+            padding: 0 10px;
+        }
+
+        .frase-invitacion strong {
+            color: var(--lila-oscuro);
+            font-weight: 600;
+        }
+
+        .btn-gala {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--lila-oscuro), var(--lila-principal));
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            padding: 16px 35px;
+            border-radius: 50px;
+            box-shadow: 0 10px 25px rgba(74, 62, 125, 0.2);
+            transition: all 0.3s ease;
+            margin-top: 15px;
+        }
+
+        .btn-gala:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 30px rgba(74, 62, 125, 0.3);
+        }
+
+        .nav-gala {
+            position: fixed;
+            bottom: 25px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: calc(100% - 40px);
+            max-width: 440px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            display: flex;
+            justify-content: space-around;
+            padding: 8px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(74, 62, 125, 0.1);
+            border: 1px solid var(--glass-border);
+            z-index: 1000;
+        }
+
+        .nav-item {
+            background: transparent;
+            border: none;
+            color: #8a8a9e;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            cursor: pointer;
+            padding: 12px 20px;
+            border-radius: 14px;
+            transition: all 0.3s ease;
+            flex: 1;
+            text-align: center;
+        }
+
+        .nav-item.active {
+            background: #ffffff;
+            color: var(--lila-oscuro);
+            box-shadow: 0 4px 15px rgba(74, 62, 125, 0.08);
+        }
+
+        #controlador-musica {
+            position: fixed;
+            top: 25px;
+            right: 25px;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            color: var(--lila-oscuro);
+            padding: 12px;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
+            z-index: 2000;
+            transition: all 0.3s ease;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(10px);
+        }
+
+        #controlador-musica.sonando {
+            background: var(--lila-oscuro);
+            color: #ffffff;
+            border-color: var(--lila-oscuro);
+            animation: latidoMusica 2s infinite;
+        }
+
+        @keyframes latidoMusica {
+            0% { box-shadow: 0 0 0 0 rgba(74, 62, 125, 0.4); }
+            70% { box-shadow: 0 0 0 12px rgba(74, 62, 125, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(74, 62, 125, 0); }
+        }
+
+        #controlador-musica svg {
+            width: 16px;
+            height: 16px;
+            fill: currentColor;
+        }
+
+        .signature {
+            margin-top: 35px;
+            font-size: 0.65rem;
+            letter-spacing: 2px;
+            color: #b0b0c5;
+            text-transform: uppercase;
+            font-weight: 500;
+        }
+
+        @media (min-width: 768px) {
+            .invitacion-card {
+                max-width: 600px;
+                padding: 60px 50px 45px 50px;
+            }
+
+            .titulo-kati { font-size: 7.5rem; } 
+            .nombre-quinceanera { font-size: 4.8rem; }
+            .evento-tag { font-size: 1.3rem; }
+            .fecha-texto { font-size: 1.5rem; }
+            .numero-tiempo { font-size: 2.2rem; }
+            .caja-tiempo { padding: 15px 10px; }
+
+            .nav-gala {
+                max-width: 550px;
+                padding: 12px;
+                bottom: 30px;
+            }
+
+            .nav-item {
+                font-size: 0.9rem;
+                padding: 15px 25px;
+            }
+
+            .btn-gala {
+                font-size: 0.85rem;
+                padding: 18px 45px;
+            }
+
+            #controlador-musica {
+                top: 40px;
+                right: 40px;
+                width: 55px;
+                height: 55px;
+            }
+            #controlador-musica svg { width: 20px; height: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="youtube-player-container">
+        <div id="player"></div>
+    </div>
+
+    <button id="controlador-musica" onclick="toggleMusica()" title="Música de fondo" aria-label="Reproducir música">
+        <svg id="icono-audio" viewBox="0 0 24 24">
+            <path d="M8 5v14l11-7z"/>
+        </svg>
+    </button>
+
+    <main class="invitacion-card">
+        
+        <section id="tab-inicio" class="tab-content active">
+            <p class="intro-text">Quiero que seas parte de mi historia</p>
+            <div class="decoracion-linea"></div>
+            
+            <h1 class="titulo-kati">Kati</h1>
+            <p class="evento-tag">Mis XV Años</p>
+            
+            <div class="fecha-bloque">
+                <p class="fecha-texto">Sábado • 26 De Diciembre</p>
+            </div>
+
+            <article class="contador-seccion">
+                <p class="contador-label">El gran día comienza en</p>
+                <div class="contador-grid">
+                    <div class="caja-tiempo"><span id="card-days" class="numero-tiempo">00</span><div class="tag-tiempo">Días</div></div>
+                    <div class="caja-tiempo"><span id="card-hours" class="numero-tiempo">00</span><div class="tag-tiempo">Horas</div></div>
+                    <div class="caja-tiempo"><span id="card-minutes" class="numero-tiempo">00</span><div class="tag-tiempo">Min</div></div>
+                    <div class="caja-tiempo"><span id="card-seconds" class="numero-tiempo">00</span><div class="tag-tiempo">Seg</div></div>
+                </div>
+            </article>
+        </section>
+
+        <section id="tab-lugar" class="tab-content">
+            <h2 class="nombre-quinceanera" style="font-size: 2.5rem; margin-bottom: 10px;">Ubicación</h2>
+            <div class="decoracion-linea"></div>
+            
+            <p class="frase-invitacion" style="font-size: 1.05rem;">
+                <strong>Misa (6:00 PM):</strong><br>
+                Parroquia de Cristo Rey<br>
+                Calle Embarcadero S/N, Bo. Xochitenco,<br>
+                Chimalhuacán, Edo. de México<br><br>
+                
+                <strong>Recepción:</strong><br>
+                <br>Alfareros, 56363 Chimalhuacán,<br>
+                Estado de México
+            </p>
+            
+            <a href="https://maps.app.goo.gl/s2rzE77xYYpbT2mX7?g_st=aw" target="_blank" class="btn-gala">
+                Abrir Mapa GPS (Recepción)
+            </a>
+        </section>
+
+        <section id="tab-detalles" class="tab-content">
+            <h2 class="nombre-quinceanera" style="font-size: 2.5rem; margin-bottom: 10px;">Detalles</h2>
+            <div class="decoracion-linea"></div>
+            
+            <p class="frase-invitacion" style="font-size: 1.05rem; line-height: 2;">
+                <strong>Nota Especial:</strong><br>
+                Tu asistencia y tu sonrisa es lo más valioso e importante para mí en esta mágica velada.
+            </p>
+        </section>
+
+        <div class="signature">// Kitty //</div>
+    </main>
+
+    <nav class="nav-gala">
+        <button class="nav-item active" onclick="irAPagina('tab-inicio', this, 'Fondo1.jpeg')">Inicio</button>
+        <button class="nav-item" onclick="irAPagina('tab-lugar', this, 'Fondo2.jpeg')">Lugar</button>
+        <button class="nav-item" onclick="irAPagina('tab-detalles', this, 'Fondo3.jpeg')">Detalles</button>
+    </nav>
+
+    <script>
+        function irAPagina(tabId, botonActivo, nombreImagen) {
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(btn => btn.classList.remove('active'));
+
+            document.getElementById(tabId).classList.add('active');
+            botonActivo.classList.add('active');
+
+            if (nombreImagen) {
+                document.body.style.backgroundImage = `url('${nombreImagen}')`;
+            }
+        }
+
+        window.onload = function() {
+            document.body.style.backgroundImage = "url('Fondo1.jpeg')";
+        };
+
+        const fechaDestino = new Date(2026, 11, 26, 18, 0, 0).getTime();
+        const pad = (num) => num.toString().padStart(2, '0');
+
+        const ejecutarContador = setInterval(function() {
+            const tiempoActual = new Date().getTime();
+            const diferencia = fechaDestino - tiempoActual;
+
+            if (diferencia < 0) {
+                clearInterval(ejecutarContador);
+                document.querySelector(".contador-seccion").innerHTML = "<p class='contador-label' style='color:var(--lila-principal); font-weight:600;'>¡Llegó el momento!</p>";
+                return;
+            }
+
+            const d = Math.floor(diferencia / (1000 * 60 * 60 * 24));
+            const h = Math.floor((diferencia % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const m = Math.floor((diferencia % (1000 * 60 * 60)) / (1000 * 60));
+            const s = Math.floor((diferencia % (1000 * 60)) / 1000);
+
+            document.getElementById("card-days").innerText = pad(d);
+            document.getElementById("card-hours").innerText = pad(h);
+            document.getElementById("card-minutes").innerText = pad(m);
+            document.getElementById("card-seconds").innerText = pad(s);
+        }, 1000);
+
+        let player;
+        let estaSonando = false;
+        const btnTrack = document.getElementById("controlador-musica");
+        const iconoTrack = document.getElementById("icono-audio");
+        const iconPlay = '<path d="M8 5v14l11-7z"/>';
+        const iconPause = '<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>';
+
+        const tag = document.createElement('script');
+        tag.src = "https://www.youtube.com/iframe_api";
+        const firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+        window.onYouTubeIframeAPIReady = function() {
+            player = new YT.Player('player', {
+                height: '0',
+                width: '0',
+                videoId: 'HC87GGoWh4U',
+                playerVars: {
+                    'autoplay': 0,
+                    'loop': 1,
+                    'playlist': 'HC87GGoWh4U'
+                },
+                events: {
+                    'onReady': () => console.log("Reproductor de YouTube listo.")
+                }
+            });
+        };
+
+        function toggleMusica() {
+            if (!player || typeof player.getPlayerState !== 'function') return;
+
+            const estado = player.getPlayerState();
+            if (estado === YT.PlayerState.PLAYING) {
+                player.pauseVideo();
+                btnTrack.classList.remove("sonando");
+                iconoTrack.innerHTML = iconPlay;
+                estaSonando = false;
+            } else {
+                player.playVideo();
+                btnTrack.classList.add("sonando");
+                iconoTrack.innerHTML = iconPause;
+                estaSonando = true;
+            }
+        }
+
+        document.body.addEventListener('click', function(e) {
+            if (e.target.closest('#controlador-musica')) return;
+
+            if (!estaSonando && player && typeof player.playVideo === 'function') {
+                player.playVideo();
+                btnTrack.classList.add("sonando");
+                iconoTrack.innerHTML = iconPause;
+                estaSonando = true;
+            }
+        }, { once: true });
+    </script>
+</body>
+</html>
